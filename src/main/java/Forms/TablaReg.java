@@ -6,16 +6,12 @@ package Forms;
 
 import Conexion.Conectar;
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,20 +24,24 @@ public class TablaReg extends javax.swing.JFrame {
     /**
      * Creates new form TablaReg
      */
-    
-    private final String SQL_SELECT= "Select * from usuario";    
+     
+    //Crea una variable con el modelo de la tabla
     DefaultTableModel model;
     
-  
+  //Esta variable cambiara dependiendo del usuario que inicie seccion para darle la bienvenida
      String saludo="";
        
     public TablaReg() {
        
-        Login b = new Login();
-       this.saludo="Bienvenido "+b.guardar;
-       
+      Login b = new Login();
+     
+    this.saludo="Bienvenido "+b.getGuardar();
+               //Se inician los componentes
         initComponents();
-        consultar();
+        //Se llama al metodo que muestra la tabla con los datos
+        mostrar();  
+        
+        
        
     }
 
@@ -74,9 +74,9 @@ public class TablaReg extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         Agregarbotton = new javax.swing.JButton();
         Eliminarbotton = new javax.swing.JButton();
-        SalirBotton5 = new javax.swing.JButton();
-        SalirBotton6 = new javax.swing.JButton();
+        Modificarbotton = new javax.swing.JButton();
         Contratext = new javax.swing.JPasswordField();
+        Limpiar = new javax.swing.JButton();
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Georgia", 0, 36)); // NOI18N
@@ -173,18 +173,17 @@ public class TablaReg extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(Telnumtext, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(Label_conta2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(9, 9, 9))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(CerrarSeccionbotton)))
+                        .addComponent(CerrarSeccionbotton))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Label_conta2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addComponent(Telnumtext, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -206,14 +205,15 @@ public class TablaReg extends javax.swing.JFrame {
                 .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Telnumtext, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Label_conta2)
-                .addGap(49, 49, 49)
+                .addGap(55, 55, 55)
                 .addComponent(CerrarSeccionbotton)
                 .addContainerGap())
         );
 
         Tabla.setBackground(new java.awt.Color(0, 255, 255));
+        Tabla.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -233,10 +233,9 @@ public class TablaReg extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,30 +273,29 @@ public class TablaReg extends javax.swing.JFrame {
             }
         });
 
-        SalirBotton5.setBackground(new java.awt.Color(0, 153, 255));
-        SalirBotton5.setForeground(new java.awt.Color(255, 255, 255));
-        SalirBotton5.setText("Modificar");
-        SalirBotton5.addActionListener(new java.awt.event.ActionListener() {
+        Modificarbotton.setBackground(new java.awt.Color(0, 153, 255));
+        Modificarbotton.setForeground(new java.awt.Color(255, 255, 255));
+        Modificarbotton.setText("Modificar");
+        Modificarbotton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalirBotton5ActionPerformed(evt);
-            }
-        });
-
-        SalirBotton6.setBackground(new java.awt.Color(102, 204, 0));
-        SalirBotton6.setForeground(new java.awt.Color(255, 255, 255));
-        SalirBotton6.setText("Buscar");
-        SalirBotton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalirBotton6ActionPerformed(evt);
+                ModificarbottonActionPerformed(evt);
             }
         });
 
         Contratext.setBackground(new java.awt.Color(51, 51, 51));
         Contratext.setForeground(new java.awt.Color(255, 255, 255));
-        Contratext.setText("s");
         Contratext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ContratextActionPerformed(evt);
+            }
+        });
+
+        Limpiar.setBackground(new java.awt.Color(0, 204, 51));
+        Limpiar.setForeground(new java.awt.Color(255, 255, 255));
+        Limpiar.setText("Limpiar");
+        Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LimpiarActionPerformed(evt);
             }
         });
 
@@ -313,22 +311,22 @@ public class TablaReg extends javax.swing.JFrame {
                                 .addGap(63, 63, 63)
                                 .addComponent(Bienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(113, 113, 113)
+                                .addGap(119, 119, 119)
                                 .addComponent(Contratext, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(220, 220, 220)
+                        .addGap(186, 186, 186)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(489, 489, 489)
+                        .addGap(493, 493, 493)
                         .addComponent(Agregarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Eliminarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Eliminarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Modificarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SalirBotton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SalirBotton6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(8, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(47, 47, 47)
@@ -338,21 +336,25 @@ public class TablaReg extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Bienvenido)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Contratext, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Bienvenido)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Contratext, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Agregarbotton, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(Eliminarbotton, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(SalirBotton5, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(SalirBotton6, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
-                .addGap(16, 16, 16))
+                    .addComponent(Agregarbotton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Eliminarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Modificarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Limpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(76, Short.MAX_VALUE)
@@ -400,10 +402,12 @@ public class TablaReg extends javax.swing.JFrame {
 
     private void AgregarbottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarbottonActionPerformed
         
-        
+        //Metodo para agregar el usuario
         agregar();
+        //Metodo para limpiar la tabla
            Cls_Tabla();
-consultar();
+           //Metodo para volver a mostrar la tabla con los datos actualizados
+            mostrar();
       
         
         
@@ -412,34 +416,34 @@ consultar();
     
     private void EliminarbottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarbottonActionPerformed
      
-        
+        //Metodo para eliminar el usuario
        Eliminar();
-
+ //Metodo para limpiar la tabla
      Cls_Tabla();
-     consultar();
+        //Metodo para volver a mostrar la tabla con los datos actualizados
+     mostrar();
         
     }//GEN-LAST:event_EliminarbottonActionPerformed
 
       void Cls_Tabla(){
       
-          //Limpia
+          //Limpia la tabla
           model.getDataVector().removeAllElements();
           
-          //Actualiza
+          //Actualiza la tabla
       Tabla.updateUI();;
     }
    
     
-    private void SalirBotton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBotton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SalirBotton5ActionPerformed
-
-    private void SalirBotton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBotton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SalirBotton6ActionPerformed
+    private void ModificarbottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarbottonActionPerformed
+     
+        modificar();
+        Cls_Tabla();
+        mostrar();
+    }//GEN-LAST:event_ModificarbottonActionPerformed
 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
-
+    
         if(evt.getClickCount()==1){
 
             JTable recibir = (JTable) evt.getSource();
@@ -457,6 +461,12 @@ consultar();
     private void ContratextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContratextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ContratextActionPerformed
+
+    private void LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimpiarActionPerformed
+
+        //Metodo para limpiar los datos ingresados 
+        limpiar();
+    }//GEN-LAST:event_LimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -494,7 +504,10 @@ consultar();
     }
     
     
-    void consultar(){
+   //Metodo que muestra los datos de la tabla
+   private void mostrar(){
+       
+       //Se crea una variable que almacene la consulta
         String sql = "Select * from usuario";
         Conectar a = new Conectar();
 ResultSet rs;
@@ -506,6 +519,7 @@ ResultSet rs;
             rs = st.executeQuery(sql);
             
             Object[] usuario = new Object[6];
+            //Se van ejecutando los datos mientras y poniendolos existan en la tabla
           model = (DefaultTableModel) Tabla.getModel();
             while (rs.next()){
                 usuario [0] = rs.getInt("id");
@@ -514,7 +528,7 @@ ResultSet rs;
                 usuario [3] = rs.getString("telefono");
                 usuario [4] = rs.getString("correo");
                 usuario [5] = rs.getString("contrasena");
-                
+               
                model.addRow(usuario);
             }
             Tabla.setModel(model);
@@ -523,6 +537,8 @@ ResultSet rs;
             System.out.println("Ocurrio un problema con la tabla: "+e);
         }    
     }
+   
+   
      private void Eliminar(){
      Conectar conex = new Conectar();
         Connection con=conex.getConnection();
@@ -541,6 +557,7 @@ ResultSet rs;
 
       PS.setString(1, user);
       
+      //En el caso de que haya un usuario que exista con el nombre ingresado se ejecuta:
       if(rs.next()){
           
           int resultado=1;
@@ -577,7 +594,7 @@ ResultSet rs;
     
     }
     
-    public void agregar(){
+    private void agregar(){
          
         Conectar conex = new Conectar();
         Connection con=conex.getConnection();
@@ -603,7 +620,7 @@ ResultSet rs;
          Statement st=con.createStatement();
              
                    ResultSet rs=st.executeQuery(sql);
-        
+        //Si no hay usuarios con el nombre ingresado se ejecuta esto:
       if(!rs.next()){
           
           int resultado=1;
@@ -639,13 +656,72 @@ ResultSet rs;
         }
    
     }
-    public void modificar(){
-   //  String Usuario = userName.getText();
-     //   String Nombre = name.getText();
-       // String Telefono = telephone.getText();
-        //String Correo = email.getText();
-        //String Contrasena = new String(Password.getPassword());
+    private void modificar(){
+    String user = this.Usertext.getText();
+        String Nom = this.NameFulltext.getText();
+        String tell = this.Telnumtext.getText();
+        String Correo = this.COELtext.getText();
+        String pass1 = new String(this.Contratext.getPassword());
+        
+           
+    
+        try {
+            
+        
+  
+            if (user.equals("") || Nom.equals("") || tell.equals("") || Correo.equals("") || pass1.equals("")){
+                JOptionPane.showMessageDialog(null, "Hay campos vacios, es obligatorio ingresar todos para modificar");
+              
+            } else {
+                Conectar conex=new Conectar();
+                String sql = "update usuario set nombre_usuario = '"+user+"', nombre_completo = '"+Nom+"', telefono = '"+tell+"', correo = '"+Correo+"', contrasena = '"+pass1+"' where nombre_usuario = '" +user+"'";
+             
+          String sql2="select * from usuario where nombre_usuario like '"+user+"'";
+
+                Connection conex1 = conex.getConnection();
+                  Statement st = conex1.createStatement();
+                st.executeUpdate(sql);
+                    ResultSet rs=st.executeQuery(sql2);
+        //Si el usuario ingresado existe entoces se puede modificar sus datos:
+      if(rs.next()){
+          
+          int resultado=1;
+      
+                   if(resultado==1){
+                       
+                       
+                                     JOptionPane.showMessageDialog(null, "EL usuario ha sido modificaddo");
+                
+                       
+                       
+                   }
+      
+      
+      }else{
+      
+        JOptionPane.showMessageDialog(null, "EL nombre usuario no puede ser cambiado o no existe");
+                 
+      }
+            }
+        } catch (SQLException e) {
+            
+                  JOptionPane.showMessageDialog(null, "Hay campos vacios, es obligatorio ingresar todos para modificar"+e);
+        }
+        
+         
+      
     }
+    
+    public  void limpiar(){
+     this.Usertext.setText("");
+         this.Contratext.setText("");
+   
+         this.COELtext.setText("");
+         this.Telnumtext.setText("");
+         this.NameFulltext.setText("");
+         
+    }
+    
     
     
 
@@ -657,9 +733,9 @@ ResultSet rs;
     private javax.swing.JPasswordField Contratext;
     private javax.swing.JButton Eliminarbotton;
     private javax.swing.JLabel Label_conta2;
+    private javax.swing.JButton Limpiar;
+    private javax.swing.JButton Modificarbotton;
     private javax.swing.JTextField NameFulltext;
-    private javax.swing.JButton SalirBotton5;
-    private javax.swing.JButton SalirBotton6;
     private javax.swing.JTable Tabla;
     private javax.swing.JTextField Telnumtext;
     private javax.swing.JTextField Usertext;

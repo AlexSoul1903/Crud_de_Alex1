@@ -10,17 +10,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import Forms.Resgistrarse;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
-
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import static java.time.Clock.system;
-import static java.time.InstantSource.system;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
@@ -30,13 +23,16 @@ import javax.swing.JPasswordField;
  */
 public class Login extends javax.swing.JFrame {
 
-    
+    //Se instancia un panel
     FondoPanel panel = new FondoPanel();
     
+    //Se realiza instancia de una conexion
     Conectar con = new Conectar();
     /**
      * Creates new form Login
      */
+    
+    //Constructor que inicia los componentes
     public Login() {
         
         initComponents();
@@ -88,7 +84,6 @@ public class Login extends javax.swing.JFrame {
         jPanel3 = new FondoPanel();
         jPanel2 = new javax.swing.JPanel();
         Panel_inicio_sec4 = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         Usuariotext1 = new javax.swing.JTextField();
@@ -100,6 +95,7 @@ public class Login extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         Contratext1 = new javax.swing.JPasswordField();
         SalirBotton1 = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
 
         Panel_inicio_sec1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Panel_inicio_sec1.setName(""); // NOI18N
@@ -289,12 +285,6 @@ public class Login extends javax.swing.JFrame {
         Panel_inicio_sec4.setName(""); // NOI18N
         Panel_inicio_sec4.setNextFocusableComponent(this);
         Panel_inicio_sec4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel23.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel23.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel23.setText("Inicio de sección.");
-        Panel_inicio_sec4.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 157, -1));
         Panel_inicio_sec4.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 85, 37, -1));
 
         jLabel28.setBackground(new java.awt.Color(255, 255, 255));
@@ -370,6 +360,12 @@ public class Login extends javax.swing.JFrame {
         });
         Panel_inicio_sec4.add(SalirBotton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, -1, -1));
 
+        jLabel32.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel32.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setText("Inicio de sección.");
+        Panel_inicio_sec4.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 157, -1));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -407,8 +403,10 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void Acederbotton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Acederbotton1ActionPerformed
     
+        //Se llama al metodo que realiza el login
         log();
     }//GEN-LAST:event_Acederbotton1ActionPerformed
 
@@ -441,15 +439,25 @@ public class Login extends javax.swing.JFrame {
         this.Contratext1 = Contratext1;
     }
 
-       public static String guardar;
+   public static String guardar="";
+  
+    public static String getGuardar() {
+        return guardar;
+    }
+
+    
     private boolean log(){
     ResultSet rls = null;
     PreparedStatement ps=null;
     Connection conex = con.getConnection();
        String query="select nombre_usuario, nombre_completo,telefono,correo,contrasena from usuario where nombre_usuario = ? and contrasena = ?"; 
-       guardar=Usuariotext1.getText();
+  
+      
 String pass = new String(this.Contratext1.getPassword());
+
          String user = (this.Usuariotext1.getText());
+        
+      
        try{
            
            ps=conex.prepareStatement(query);
@@ -457,8 +465,10 @@ String pass = new String(this.Contratext1.getPassword());
            ps.setString(2, pass);
               rls=ps.executeQuery();
                
+              //En caso de que la consulta devuelva valores se realiza:
               if(rls.next()){
               
+                  Login.guardar=user;
               
           JOptionPane.showMessageDialog(null, "Session iniciada");
           this.setVisible(false);
@@ -467,7 +477,7 @@ String pass = new String(this.Contratext1.getPassword());
          
               return true;
               }else{
-                  
+                  //Encontro el valor de usuario o/y contraseña vacios
                   if(user.equals("")&& !pass.equals("")){
                         JOptionPane.showMessageDialog(null, "El campo del nombre de usuario esta vacio, debe de llenarlo");
                      
@@ -593,7 +603,6 @@ String pass = new String(this.Contratext1.getPassword());
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -602,6 +611,7 @@ String pass = new String(this.Contratext1.getPassword());
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
