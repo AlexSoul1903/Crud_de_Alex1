@@ -20,9 +20,8 @@ import javax.swing.JOptionPane;
  */
 public class Resgistrarse extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Resgistrarse
-     */
+    
+    
     public Resgistrarse() {
         initComponents();
     }
