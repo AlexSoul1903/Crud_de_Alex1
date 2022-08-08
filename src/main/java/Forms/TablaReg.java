@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.ImageIcon;
@@ -28,10 +29,10 @@ public class TablaReg extends javax.swing.JFrame {
      * Creates new form TablaReg
      */
     
-    private final String SQL_SELECT= "Select * from usuario";
-
-   
+    private final String SQL_SELECT= "Select * from usuario";    
+    DefaultTableModel model;
     
+  
      String saludo="";
        
     public TablaReg() {
@@ -41,6 +42,7 @@ public class TablaReg extends javax.swing.JFrame {
        
         initComponents();
         consultar();
+       
     }
 
     /**
@@ -71,7 +73,7 @@ public class TablaReg extends javax.swing.JFrame {
         Bienvenido = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         Agregarbotton = new javax.swing.JButton();
-        SalirBotton4 = new javax.swing.JButton();
+        Eliminarbotton = new javax.swing.JButton();
         SalirBotton5 = new javax.swing.JButton();
         SalirBotton6 = new javax.swing.JButton();
         Contratext = new javax.swing.JPasswordField();
@@ -263,12 +265,12 @@ public class TablaReg extends javax.swing.JFrame {
             }
         });
 
-        SalirBotton4.setBackground(new java.awt.Color(204, 0, 0));
-        SalirBotton4.setForeground(new java.awt.Color(255, 255, 255));
-        SalirBotton4.setText("Eliminar");
-        SalirBotton4.addActionListener(new java.awt.event.ActionListener() {
+        Eliminarbotton.setBackground(new java.awt.Color(204, 0, 0));
+        Eliminarbotton.setForeground(new java.awt.Color(255, 255, 255));
+        Eliminarbotton.setText("Eliminar");
+        Eliminarbotton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalirBotton4ActionPerformed(evt);
+                EliminarbottonActionPerformed(evt);
             }
         });
 
@@ -306,24 +308,26 @@ public class TablaReg extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(Bienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(63, 63, 63)
+                                .addComponent(Bienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(113, 113, 113)
+                                .addComponent(Contratext, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(220, 220, 220)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(Contratext, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(220, 220, 220)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(Agregarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(489, 489, 489)
+                        .addComponent(Agregarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SalirBotton4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Eliminarbotton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(SalirBotton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(SalirBotton6))
-                    .addComponent(jLabel3)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(SalirBotton6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -345,7 +349,7 @@ public class TablaReg extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Agregarbotton, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(SalirBotton4, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                    .addComponent(Eliminarbotton, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                     .addComponent(SalirBotton5, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                     .addComponent(SalirBotton6, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
@@ -398,15 +402,34 @@ public class TablaReg extends javax.swing.JFrame {
         
         
         agregar();
-        consultar();
+           Cls_Tabla();
+consultar();
+      
         
         
     }//GEN-LAST:event_AgregarbottonActionPerformed
 
-    private void SalirBotton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBotton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SalirBotton4ActionPerformed
+    
+    private void EliminarbottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarbottonActionPerformed
+     
+        
+       Eliminar();
 
+     Cls_Tabla();
+     consultar();
+        
+    }//GEN-LAST:event_EliminarbottonActionPerformed
+
+      void Cls_Tabla(){
+      
+          //Limpia
+          model.getDataVector().removeAllElements();
+          
+          //Actualiza
+      Tabla.updateUI();;
+    }
+   
+    
     private void SalirBotton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBotton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SalirBotton5ActionPerformed
@@ -474,18 +497,16 @@ public class TablaReg extends javax.swing.JFrame {
     void consultar(){
         String sql = "Select * from usuario";
         Conectar a = new Conectar();
-
-
+ResultSet rs;
         try {
             
-           
             Connection conet = a.getConnection();
           
             Statement  st = conet.createStatement();
-          var  rs = st.executeQuery(sql);
+            rs = st.executeQuery(sql);
             
-            var usuario = new Object[6];
-           var model = (DefaultTableModel) Tabla.getModel();
+            Object[] usuario = new Object[6];
+          model = (DefaultTableModel) Tabla.getModel();
             while (rs.next()){
                 usuario [0] = rs.getInt("id");
                 usuario [1] = rs.getString("nombre_usuario");
@@ -494,7 +515,7 @@ public class TablaReg extends javax.swing.JFrame {
                 usuario [4] = rs.getString("correo");
                 usuario [5] = rs.getString("contrasena");
                 
-                model.addRow(usuario);
+               model.addRow(usuario);
             }
             Tabla.setModel(model);
             
@@ -502,9 +523,65 @@ public class TablaReg extends javax.swing.JFrame {
             System.out.println("Ocurrio un problema con la tabla: "+e);
         }    
     }
+     private void Eliminar(){
+     Conectar conex = new Conectar();
+        Connection con=conex.getConnection();
+        String user = this.Usertext.getText();
+         
+            String sql="select * from usuario where nombre_usuario like '"+user+"'";
+
+        
+           if(!user.equals("")){
+         try{
+     
+             Statement st=con.createStatement();
+             
+                   ResultSet rs=st.executeQuery(sql);
+     PreparedStatement PS = conex.getConnection().prepareStatement("Delete from usuario where nombre_usuario = ?");
+
+      PS.setString(1, user);
+      
+      if(rs.next()){
+          
+          int resultado=1;
+          
+          if(resultado==1){
+          JOptionPane.showMessageDialog((Component)null,"Registro eliminado exitosamente del usuario: "+user);
+           
+     PS.executeUpdate();
+         
+     
+          }
+            
+      }else{
+       JOptionPane.showMessageDialog((Component)null,"El usuario ingresado no existe");
+       
+         }
+      }catch(SQLException e){
+      
+         JOptionPane.showMessageDialog((Component)null,"Error:"+e); 
+        
+      }
+         
+        
+           }
+         
+         
+         else{
+           
+             JOptionPane.showMessageDialog(null,"El nombre del usuario es obligatorio para eliminarlo. Intente de nuevo");
+          
+                   
+           }
+
+    
+    }
     
     public void agregar(){
          
+        Conectar conex = new Conectar();
+        Connection con=conex.getConnection();
+     
         String user = this.Usertext.getText();
         String Nom = this.NameFulltext.getText();
       
@@ -512,41 +589,55 @@ public class TablaReg extends javax.swing.JFrame {
         String Correo = this.COELtext.getText();
         String pass1 = new String(this.Contratext.getPassword());
         
+          String sql="select * from usuario where nombre_usuario like '"+user+"'";
+
+        
         if(user.equals("")|| Nom.equals("") || tell.equals("")|| Correo.equals("") || pass1.equals("")){
         
             JOptionPane.showMessageDialog((Component)null,"Necesita llenar todas las casillas para completar el registro");
-            
+              
         }else{
-         
-          
             
-                try{
-                Conectar conex = new Conectar();
-               
-      PreparedStatement PS = conex.getConnection().prepareStatement("INSERT INTO usuario(nombre_usuario,nombre_completo,telefono,correo,contrasena) VALUES (?,?,?,?,?)");
+                try{ 
+              
+         Statement st=con.createStatement();
+             
+                   ResultSet rs=st.executeQuery(sql);
+        
+      if(!rs.next()){
+          
+          int resultado=1;
+          
+          if(resultado==1){
+     
+            PreparedStatement PS = conex.getConnection().prepareStatement("INSERT INTO usuario(nombre_usuario,nombre_completo,telefono,correo,contrasena) VALUES (?,?,?,?,?)");
       PS.setString(1, user);
       PS.setString(2, Nom);
       PS.setString(3, tell);
       PS.setString(4, Correo); 
       PS.setString(5, pass1);
-   
-       JOptionPane.showMessageDialog((Component)null,"Regstro exitoso del usuario: "+user);
-            
+        
       PS.executeUpdate();
-     
+        JOptionPane.showMessageDialog((Component)null,"Regstro exitoso del usuario: "+user);  
+              
+          }
+      }
+      else{
+          
+        JOptionPane.showMessageDialog((Component)null,"Error, el nombre de usuario ingresado ya existe, pruebe otro.");
+            
+      }
+      
                 }catch(SQLException e){
-                    
                     
                  JOptionPane.showMessageDialog((Component)null,"Error, el nombre de usuario ingresado ya existe, pruebe otro.  o sino es otro error: "+e);
             
                    
                 }
-          
+                
           
         }
-    
-        
-    
+   
     }
     public void modificar(){
    //  String Usuario = userName.getText();
@@ -564,9 +655,9 @@ public class TablaReg extends javax.swing.JFrame {
     private javax.swing.JTextField COELtext;
     private javax.swing.JButton CerrarSeccionbotton;
     private javax.swing.JPasswordField Contratext;
+    private javax.swing.JButton Eliminarbotton;
     private javax.swing.JLabel Label_conta2;
     private javax.swing.JTextField NameFulltext;
-    private javax.swing.JButton SalirBotton4;
     private javax.swing.JButton SalirBotton5;
     private javax.swing.JButton SalirBotton6;
     private javax.swing.JTable Tabla;
