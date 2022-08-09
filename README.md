@@ -20,6 +20,9 @@ Cuando el usuario este en el menu de registro este debera llenar todos los campo
 Una vez iniciada la session debe de aparecer el menu con todos los usuarios que han sido registrados en el sistema. El usuario que ha ingresado podra agregar nuevos usuarios, borrarlos y modificarlos. Se debe de ingresar todos los campos para agregar a un usuario correctamente, el nombre de usuario no puede ser repetido. Para eliminar y editar datos se debe ingresar el nombre del usuario al cual se eliminaran o modificaran sus datos.
 ![image](https://user-images.githubusercontent.com/74164246/183561891-c8cb2e5a-71c0-45d7-b300-4c8d27cba508.png)
 
+Estructura de la base de datos:
+![image](https://user-images.githubusercontent.com/74164246/183780346-d6f6132a-8c15-4e4a-a04d-a3e039b51eea.png)
+
 
 Dentro de los programas utilizados se encuentran:
   
