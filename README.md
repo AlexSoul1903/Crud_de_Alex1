@@ -2,7 +2,7 @@
 
 Hola, mi nombre es Alex Manuel Frias Molina (2021-1954).
 
-Link del video: 
+Link del video: href="https://youtu.be/6HpOO10eRyM"
 
 El proyecto a continuación trata sobre hacer un CRUD en java usando una base de datos
 en esta documentación se explicara brevemente las capacidades del programa.
